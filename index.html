@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Profissional</title>
+    <style>
+        /* Reset e configurações gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --preto: #121212;
+            --cinza-escuro: #1e1e1e;
+            --cinza-medio: #2d2d2d;
+            --cinza-claro: #3d3d3d;
+            --cinza-texto: #b0b0b0;
+            --branco: #ffffff;
+            --destaque: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--preto);
+            color: var(--branco);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Header e Navegação */
+        header {
+            background-color: var(--cinza-escuro);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--branco);
+        }
+
+        .logo span {
+            color: var(--destaque);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--branco);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--destaque);
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to right, var(--preto), var(--cinza-escuro));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--cinza-texto);
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--cinza-claro);
+            color: var(--branco);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--destaque);
+            color: var(--preto);
+            transform: translateY(-3px);
+        }
+
+        .hero-bg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background-color: var(--cinza-medio);
+            clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* Sobre */
+        .sobre {
+            background-color: var(--cinza-escuro);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--destaque);
+        }
+
+        .sobre-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .sobre-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .sobre-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .sobre-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .sobre-text {
+            flex: 1;
+        }
+
+        .sobre-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .sobre-text p {
+            margin-bottom: 20px;
+            color: var(--cinza-texto);
+        }
+
+        /* Habilidades */
+        .habilidades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .habilidade-card {
+            background-color: var(--cinza-escuro);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .habilidade-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .habilidade-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--destaque);
+        }
+
+        .habilidade-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Projetos */
+        .projetos {
+            background-color: var(--cinza-escuro);
+        }
+
+        .projetos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .projeto-card {
+            background-color: var(--cinza-medio);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .projeto-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .projeto-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .projeto-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .projeto-card:hover .projeto-img img {
+            transform: scale(1.1);
+        }
+
+        .projeto-info {
+            padding: 20px;
+        }
+
+        .projeto-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .projeto-info p {
+            color: var(--cinza-texto);
+            margin-bottom: 15px;
+        }
+
+        .projeto-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background-color: var(--cinza-claro);
+            color: var(--branco);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Contato */
+        .contato-content {
+            display: flex;
+            gap: 50px;
+        }
+
+        .contato-info {
+            flex: 1;
+        }
+
+        .contato-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .contato-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--destaque);
+        }
+
+        .contato-form {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--cinza-medio);
+            border: 1px solid var(--cinza-claro);
+            border-radius: 4px;
+            color: var(--branco);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--destaque);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--cinza-escuro);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer-links a {
+            color: var(--cinza-texto);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--destaque);
+        }
+
+        .copyright {
+            color: var(--cinza-texto);
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .sobre-content {
+                flex-direction: column;
+            }
+
+            .contato-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--cinza-escuro);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hero-bg {
+                display: none;
+            }
+
+            .hero {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Portfólio<span>.</span></div>
+                <div class="menu-toggle" id="menuToggle">☰</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#habilidades">Habilidades</a></li>
+                    <li><a href="#projetos">Projetos</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Desenvolvedor Full Stack & Designer UI/UX</h1>
+                <p>Crio experiências digitais excepcionais com foco em performance, design responsivo e código limpo.</p>
+                <a href="#projetos" class="btn">Ver Projetos</a>
+            </div>
+        </div>
+        <div class="hero-bg"></div>
+    </section>
+
+    <!-- Sobre -->
+    <section class="sobre" id="sobre">
+        <div class="container">
+            <h2 class="section-title">Sobre Mim</h2>
+            <div class="sobre-content">
+                <div class="sobre-img">
+                    <!-- Imagem placeholder - substitua pela sua foto -->
+                    <div style="width:100%;height:400px;background-color:#2d2d2d;display:flex;align-items:center;justify-content:center;color:#b0b0b0;">
+                        [SUA FOTO AQUI]
+                    </div>
+                </div>
+                <div class="sobre-text">
+                    <h3>Olá, eu sou Alex Silva</h3>
+                    <p>Sou um desenvolvedor full stack com mais de 5 anos de experiência criando soluções digitais inovadoras. Minha paixão é transformar ideias complexas em interfaces intuitivas e funcionais.</p>
+                    <p>Especializado em JavaScript, React, Node.js e design de UI/UX, busco sempre equilibrar estética e funcionalidade em cada projeto.</p>
+                    <p>Quando não estou codando, você me encontra explorando novas tecnologias, escrevendo no meu blog sobre desenvolvimento ou participando de comunidades tech.</p>
+                    <a href="#contato" class="btn">Entre em Contato</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Habilidades -->
+    <section class="habilidades" id="habilidades">
+        <div class="container">
+            <h2 class="section-title">Minhas Habilidades</h2>
+            <div class="habilidades-grid">
+                <div class="habilidade-card">
+                    <div class="habilidade-icon">💻</div>
+                    <h3>Desenvolvimento Frontend</h3>
+                    <p>HTML5, CSS3, JavaScript, React, Vue.js, TypeScript, SASS</p>
+                </div>
+                <div class="habilidade-card">
+                    <div class="habilidade-icon">⚙️</div>
+                    <h3>Desenvolvimento Backend</h3>
+                    <p>Node.js, Express, MongoDB, MySQL, APIs REST, GraphQL</p>
+                </div>
+                <div class="habilidade-card">
+                    <div class="habilidade-icon">🎨</div>
+                    <h3>Design UI/UX</h3>
+                    <p>Figma, Adobe XD, Prototipagem, Design System, Responsive Design</p>
+                </div>
+                <div class="habilidade-card">
+                    <div class="habilidade-icon">🔧</div>
+                    <h3>Ferramentas & DevOps</h3>
+                    <p>Git, Docker, AWS, CI/CD, Webpack, Jest, Agile/Scrum</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projetos -->
+    <section class="projetos" id="projetos">
+        <div class="container">
+            <h2 class="section-title">Projetos Recentes</h2>
+            <div class="projetos-grid">
+                <div class="projeto-card">
+                    <div class="projeto-img">
+                        <!-- Imagem placeholder - substitua pela imagem do projeto -->
+                        <div style="width:100%;height:100%;background-color:#3d3d3d;display:flex;align-items:center;justify-content:center;color:#b0b0b0;">
+                            [IMAGEM DO PROJETO]
+                        </div>
+                    </div>
+                    <div class="projeto-info">
+                        <h3>E-commerce Moderno</h3>
+                        <p>Plataforma de e-commerce completa com carrinho, checkout e painel administrativo.</p>
+                        <div class="projeto-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                        <a href="#" class="btn">Ver Detalhes</a>
+                    </div>
+                </div>
+                <div class="projeto-card">
+                    <div class="projeto-img">
+                        <!-- Imagem placeholder - substitua pela imagem do projeto -->
+                        <div style="width:100%;height:100%;background-color:#3d3d3d;display:flex;align-items:center;justify-content:center;color:#b0b0b0;">
+                            [IMAGEM DO PROJETO]
+                        </div>
+                    </div>
+                    <div class="projeto-info">
+                        <h3>App de Finanças Pessoais</h3>
+                        <p>Aplicativo para controle de gastos e planejamento financeiro com gráficos interativos.</p>
+                        <div class="projeto-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">Chart.js</span>
+                        </div>
+                        <a href="#" class="btn">Ver Detalhes</a>
+                    </div>
+                </div>
+                <div class="projeto-card">
+                    <div class="projeto-img">
+                        <!-- Imagem placeholder - substitua pela imagem do projeto -->
+                        <div style="width:100%;height:100%;background-color:#3d3d3d;display:flex;align-items:center;justify-content:center;color:#b0b0b0;">
+                            [IMAGEM DO PROJETO]
+                        </div>
+                    </div>
+                    <div class="projeto-info">
+                        <h3>Portal de Notícias</h3>
+                        <p>Site de notícias responsivo com sistema de categorias e busca avançada.</p>
+                        <div class="projeto-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">Strapi</span>
+                            <span class="tag">Tailwind CSS</span>
+                        </div>
+                        <a href="#" class="btn">Ver Detalhes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section class="contato" id="contato">
+        <div class="container">
+            <h2 class="section-title">Entre em Contato</h2>
+            <div class="contato-content">
+                <div class="contato-info">
+                    <div class="contato-item">
+                        <div class="contato-icon">📧</div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>contato@portfolio.com</p>
+                        </div>
+                    </div>
+                    <div class="contato-item">
+                        <div class="contato-icon">📱</div>
+                        <div>
+                            <h3>Telefone</h3>
+                            <p>+55 (11) 99999-9999</p>
+                        </div>
+                    </div>
+                    <div class="contato-item">
+                        <div class="contato-icon">📍</div>
+                        <div>
+                            <h3>Localização</h3>
+                            <p>São Paulo, Brasil</p>
+                        </div>
+                    </div>
+                    <div class="contato-item">
+                        <div class="contato-icon">🔗</div>
+                        <div>
+                            <h3>Redes Sociais</h3>
+                            <p>LinkedIn, GitHub, Instagram</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contato-form">
+                    <form id="formContato">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Seu Nome" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Seu Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Assunto" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Sua Mensagem" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#projetos">Projetos</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <p class="copyright">&copy; 2023 Portfólio Profissional. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('formContato').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Mensagem enviada com sucesso! Entrarei em contato em breve.');
+            this.reset();
+        });
+
+        // Adicionar sombra ao header quando scrollar
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if(window.scrollY > 50) {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.3)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
