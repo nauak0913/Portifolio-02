@@ -1042,4 +1042,141 @@
                         tooltip: {
                             backgroundColor: 'rgba(26, 26, 26, 0.9)',
                             titleColor: 'rgba(255, 255, 255, 0.9)',
-                            bodyColor: 'rgba
+                            bodyColor: 'rgba(255, 255, 255, 0.7)',
+                            borderColor: 'rgba(58, 134, 255, 0.5)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+
+        function analyzeData() {
+            const dataInput = document.getElementById('dataInput').value;
+            const dataArray = dataInput.split(',')
+                .map(item => parseFloat(item.trim()))
+                .filter(item => !isNaN(item));
+            
+            if (dataArray.length === 0) {
+                alert('Por favor, insira dados válidos separados por vírgula.');
+                return;
+            }
+            
+            // Ordenar os dados
+            const sortedData = [...dataArray].sort((a, b) => a - b);
+            
+            // Calcular estatísticas
+            const stats = calculateStatistics(sortedData);
+            
+            // Atualizar a interface
+            updateStatisticsDisplay(stats);
+            updateChart(sortedData);
+            updateAdvancedAnalysis(sortedData, stats);
+        }
+
+        function calculateStatistics(data) {
+            const mean = data.reduce((sum, val) => sum + val, 0) / data.length;
+            const median = calculateMedian(data);
+            const mode = calculateMode(data);
+            const variance = data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.length;
+            const stdDev = Math.sqrt(variance);
+            const min = Math.min(...data);
+            const max = Math.max(...data);
+            const range = max - min;
+            const quartiles = calculateQuartiles(data);
+            
+            return {
+                mean, median, mode, variance, stdDev, min, max, range, quartiles
+            };
+        }
+
+        function calculateMedian(data) {
+            const mid = Math.floor(data.length / 2);
+            return data.length % 2 !== 0 ? data[mid] : (data[mid - 1] + data[mid]) / 2;
+        }
+
+        function calculateMode(data) {
+            const frequency = {};
+            let maxFreq = 0;
+            let modes = [];
+            
+            data.forEach(value => {
+                frequency[value] = (frequency[value] || 0) + 1;
+                if (frequency[value] > maxFreq) {
+                    maxFreq = frequency[value];
+                }
+            });
+            
+            for (const value in frequency) {
+                if (frequency[value] === maxFreq) {
+                    modes.push(parseFloat(value));
+                }
+            }
+            
+            return modes.length === data.length ? [] : modes;
+        }
+
+        function calculateQuartiles(data) {
+            const mid = Math.floor(data.length / 2);
+            const q1 = calculateMedian(data.slice(0, mid));
+            const q2 = calculateMedian(data);
+            const q3 = calculateMedian(data.slice(data.length % 2 === 0 ? mid : mid + 1));
+            
+            return { q1, q2, q3 };
+        }
+
+        function updateStatisticsDisplay(stats) {
+            document.getElementById('mean').textContent = stats.mean.toFixed(4);
+            document.getElementById('median').textContent = stats.median.toFixed(4);
+            document.getElementById('mode').textContent = stats.mode.length > 0 ? stats.mode.map(v => v.toFixed(4)).join(', ') : 'Nenhuma';
+            document.getElementById('stdDev').textContent = stats.stdDev.toFixed(4);
+            document.getElementById('variance').textContent = stats.variance.toFixed(4);
+            document.getElementById('minValue').textContent = stats.min.toFixed(4);
+            document.getElementById('maxValue').textContent = stats.max.toFixed(4);
+            document.getElementById('range').textContent = stats.range.toFixed(4);
+        }
+
+        function updateChart(data) {
+            const labels = data.map((_, index) => `Ponto ${index + 1}`);
+            
+            dataChart.data.labels = labels;
+            dataChart.data.datasets[0].data = data;
+            dataChart.update();
+        }
+
+        function updateAdvancedAnalysis(data, stats) {
+            // Distribuição de frequência
+            const frequency = {};
+            data.forEach(val => {
+                const key = val.toFixed(1);
+                frequency[key] = (frequency[key] || 0) + 1;
+            });
+            
+            const frequencyHTML = Object.entries(frequency)
+                .map(([key, count]) => `${key}: ${count} vez${count > 1 ? 'es' : ''}`)
+                .join('<br>');
+            
+            document.getElementById('frequencyDistribution').innerHTML = frequencyHTML || 'Nenhuma frequência calculada';
+            
+            // Quartis
+            document.getElementById('quartiles').innerHTML = 
+                `Q1: ${stats.quartiles.q1.toFixed(4)} | Q2: ${stats.quartiles.q2.toFixed(4)} | Q3: ${stats.quartiles.q3.toFixed(4)}`;
+            
+            // Tendência central
+            document.getElementById('centralTendency').innerHTML = 
+                `Média: ${stats.mean.toFixed(4)} | Mediana: ${stats.median.toFixed(4)} | Moda: ${stats.mode.length > 0 ? stats.mode.map(v => v.toFixed(4)).join(', ') : 'Nenhuma'}`;
+        }
+
+        function generateSampleData() {
+            const sampleData = Array.from({length: 15}, () => 
+                Math.floor(Math.random() * 100) + Math.random()
+            );
+            document.getElementById('dataInput').value = sampleData.map(v => v.toFixed(2)).join(', ');
+        }
+
+        function clearData() {
+            document.getElementById('dataInput').value = '';
+        }
+    </script>
+</body>
+</html>
