@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataCalc - Análise de Dados e Cálculos Matemáticos</title>
+    <title>EducaJovem RH - Inteligência que Entende Pessoas</title>
     <style>
         * {
             margin: 0;
@@ -13,69 +13,161 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
             color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* Header e Navegação */
+        /* Header */
         header {
-            background: #0d0d0d;
+            background: #0a0a0a;
             border-bottom: 2px solid #404040;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .logo span {
             color: #b0b0b0;
         }
 
-        nav {
+        /* Botão Hamburger Flutuante */
+        .hamburger-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #404040;
+            border: 2px solid #606060;
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
-            gap: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        nav button {
+        .hamburger-btn:hover {
+            background: #505050;
+            border-color: #808080;
+            transform: scale(1.1);
+        }
+
+        .hamburger-btn span {
+            width: 24px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: #0d0d0d;
+            border-right: 2px solid #404040;
+            padding: 2rem 0;
+            z-index: 1000;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-title {
+            padding: 0 2rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-bottom: 2px solid #404040;
+            padding-bottom: 1rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin: 0;
+        }
+
+        .sidebar-menu button {
+            width: 100%;
+            padding: 1rem 2rem;
             background: none;
             border: none;
             color: #b0b0b0;
-            padding: 1rem 1.5rem;
+            text-align: left;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
             transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            position: relative;
+            border-left: 3px solid transparent;
         }
 
-        nav button:hover {
+        .sidebar-menu button:hover {
             color: #ffffff;
-            border-bottom-color: #808080;
+            background: #1a1a1a;
+            border-left-color: #606060;
         }
 
-        nav button.active {
+        .sidebar-menu button.active {
             color: #ffffff;
-            border-bottom-color: #ffffff;
+            background: #1a1a1a;
+            border-left-color: #ffffff;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
         }
 
         /* Container Principal */
@@ -85,7 +177,7 @@
             padding: 2rem;
         }
 
-        /* Seções */
+        /* Páginas */
         .page {
             display: none;
             animation: fadeIn 0.5s ease;
@@ -170,35 +262,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Formulários e Inputs */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-            font-weight: 500;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 0.75rem;
-            background: #0d0d0d;
-            border: 1px solid #404040;
-            border-radius: 5px;
-            color: #e0e0e0;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #808080;
-            box-shadow: 0 0 10px rgba(128, 128, 128, 0.3);
-        }
-
         /* Botões */
         .btn {
             padding: 0.75rem 1.5rem;
@@ -239,42 +302,33 @@
             font-size: 1.1rem;
         }
 
-        /* Resultados */
-        .result-box {
+        /* Formulários */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
             background: #0d0d0d;
             border: 1px solid #404040;
             border-radius: 5px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            display: none;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .result-box.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                max-height: 0;
-            }
-            to {
-                opacity: 1;
-                max-height: 500px;
-            }
-        }
-
-        .result-box h4 {
-            color: #ffffff;
-            margin-bottom: 1rem;
-        }
-
-        .result-value {
-            font-size: 1.5rem;
-            color: #ffffff;
-            font-weight: 700;
-            word-break: break-all;
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #808080;
+            box-shadow: 0 0 10px rgba(128, 128, 128, 0.3);
         }
 
         /* Tabelas */
@@ -310,109 +364,7 @@
             background: #1a1a1a;
         }
 
-        /* Estatísticas */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-box {
-            background: #0d0d0d;
-            border: 1px solid #404040;
-            border-radius: 5px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-label {
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            color: #ffffff;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        /* Footer */
-        footer {
-            background: #0d0d0d;
-            border-top: 1px solid #404040;
-            padding: 2rem;
-            text-align: center;
-            color: #808080;
-            margin-top: 3rem;
-        }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            nav button {
-                padding: 0.75rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-        }
-
-        /* Alertas */
-        .alert {
-            padding: 1rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .alert.show {
-            display: block;
-        }
-
-        .alert-success {
-            background: #1a3a1a;
-            border: 1px solid #2d5a2d;
-            color: #90ee90;
-        }
-
-        .alert-error {
-            background: #3a1a1a;
-            border: 1px solid #5a2d2d;
-            color: #ff6b6b;
-        }
-
-        .alert-info {
-            background: #1a2a3a;
-            border: 1px solid #2d4a5a;
-            color: #87ceeb;
-        }
-
-        /* Seção de Análise de Dados */
+        /* Seção de Análise */
         .analysis-section {
             background: #1a1a1a;
             border: 1px solid #404040;
@@ -437,332 +389,517 @@
             .two-column {
                 grid-template-columns: 1fr;
             }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .hamburger-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
         }
 
-        /* Calculadora */
-        .calculator-display {
+        /* Resultado */
+        .result-box {
             background: #0d0d0d;
             border: 1px solid #404040;
             border-radius: 5px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: right;
-            font-size: 2rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-box h4 {
             color: #ffffff;
-            font-weight: 700;
-            word-break: break-all;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
+            margin-bottom: 1rem;
         }
 
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-        }
-
-        .button-grid button {
-            padding: 1rem;
+        /* Perfil do Funcionário */
+        .employee-card {
             background: #1a1a1a;
             border: 1px solid #404040;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .employee-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .employee-info h3 {
             color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .employee-info p {
+            color: #b0b0b0;
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric {
+            background: #0d0d0d;
+            border: 1px solid #404040;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
+            padding: 1rem;
+            text-align: center;
         }
 
-        .button-grid button:hover {
-            background: #2d2d2d;
+        .metric-label {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: #0d0d0d;
+            border-top: 1px solid #404040;
+            padding: 2rem;
+            text-align: center;
+            color: #808080;
+            margin-top: 3rem;
+        }
+
+        /* Search Results */
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .employee-result {
+            background: #1a1a1a;
+            border: 1px solid #404040;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .employee-result:hover {
             border-color: #606060;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
-        .button-grid button.operator {
-            background: #2d2d2d;
-            border-color: #606060;
+        .employee-result h4 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
         }
 
-        .button-grid button.operator:hover {
-            background: #3d3d3d;
-            border-color: #808080;
+        .employee-result p {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
         }
 
-        .button-grid button.equals {
-            background: #404040;
-            border-color: #606060;
-            grid-column: span 2;
-        }
-
-        .button-grid button.equals:hover {
-            background: #505050;
-            border-color: #808080;
-        }
-
-        .button-grid button.clear {
-            background: #3a1a1a;
-            border-color: #5a2d2d;
-            grid-column: span 2;
-        }
-
-        .button-grid button.clear:hover {
-            background: #4a2a2a;
-            border-color: #7a3d3d;
+        .employee-result .btn {
+            width: 100%;
+            margin-top: 1rem;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="header-container">
-            <div class="logo">Data<span>Calc</span></div>
-            <nav>
-                <button class="nav-btn active" data-page="home">Início</button>
-                <button class="nav-btn" data-page="calculator">Calculadora</button>
-                <button class="nav-btn" data-page="statistics">Estatísticas</button>
-                <button class="nav-btn" data-page="analysis">Análise de Dados</button>
-                <button class="nav-btn" data-page="about">Sobre</button>
-            </nav>
-        </div>
+        <div class="logo">Educa<span>Jovem</span> RH</div>
+        <div style="color: #b0b0b0; font-size: 0.9rem;">Inteligência que Entende Pessoas</div>
     </header>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar Menu -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-title">Menu</div>
+        <ul class="sidebar-menu">
+            <li><button class="sidebar-btn active" data-page="empresa-home">🏠 Início</button></li>
+            <li><button class="sidebar-btn" data-page="busca-contratacao">🔍 Busca e Contratação</button></li>
+            <li><button class="sidebar-btn" data-page="rh-ia">🤖 EJ RHAI</button></li>
+            <li><button class="sidebar-btn" data-page="analista-dados">📊 Analista de Dados</button></li>
+        </ul>
+    </nav>
+
+    <!-- Botão Hamburger Flutuante -->
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
     <!-- Container Principal -->
     <div class="container">
-        <!-- Página: Início -->
-        <div class="page active" id="home">
+        <!-- Página: Escolha Inicial -->
+        <div class="page active" id="escolha-inicial">
             <div class="hero">
-                <h1>DataCalc</h1>
-                <p>Sua plataforma completa para análise de dados e cálculos matemáticos</p>
+                <h1>EducaJovem RH</h1>
+                <p>Inteligência que Entende Pessoas, Conecta Talentos e Transforma o Futuro</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary btn-large" onclick="navigateTo('calculator')">Calculadora</button>
-                    <button class="btn btn-secondary btn-large" onclick="navigateTo('statistics')">Estatísticas</button>
+                    <button class="btn btn-primary btn-large" onclick="navigateTo('alunos-adultos')">👨‍🎓 Alunos e Adultos</button>
+                    <button class="btn btn-secondary btn-large" onclick="navigateTo('empresa-home')">🏢 Empresas</button>
                 </div>
             </div>
 
             <div class="cards-grid">
                 <div class="card">
-                    <h3>🧮 Calculadora Avançada</h3>
-                    <p>Realize cálculos matemáticos complexos com uma interface intuitiva e responsiva.</p>
-                    <button class="btn btn-primary" onclick="navigateTo('calculator')">Acessar</button>
+                    <h3>Para Alunos e Adultos</h3>
+                    <p>Acesse cursos, mentorías e oportunidades reais de emprego. Desenvolva suas habilidades técnicas e comportamentais.</p>
+                    <button class="btn btn-primary" onclick="navigateTo('alunos-adultos')">Acessar</button>
                 </div>
                 <div class="card">
-                    <h3>📊 Análise Estatística</h3>
-                    <p>Calcule média, mediana, desvio padrão e outras métricas estatísticas importantes.</p>
-                    <button class="btn btn-primary" onclick="navigateTo('statistics')">Acessar</button>
-                </div>
-                <div class="card">
-                    <h3>📈 Análise de Dados</h3>
-                    <p>Analise conjuntos de dados, gere relatórios e visualize tendências.</p>
-                    <button class="btn btn-primary" onclick="navigateTo('analysis')">Acessar</button>
+                    <h3>Para Empresas</h3>
+                    <p>Encontre os melhores talentos com nossa plataforma inteligente de recrutamento e análise de desempenho.</p>
+                    <button class="btn btn-primary" onclick="navigateTo('empresa-home')">Acessar</button>
                 </div>
             </div>
         </div>
 
-        <!-- Página: Calculadora -->
-        <div class="page" id="calculator">
+        <!-- Página: Alunos e Adultos (Placeholder) -->
+        <div class="page" id="alunos-adultos">
+            <div class="hero">
+                <h1>Alunos e Adultos</h1>
+                <p>Desenvolva suas habilidades e encontre oportunidades de emprego</p>
+                <button class="btn btn-primary btn-large" onclick="navigateTo('escolha-inicial')">← Voltar</button>
+            </div>
             <div class="analysis-section">
-                <h2>🧮 Calculadora Avançada</h2>
-                
-                <div class="two-column">
-                    <div>
-                        <h3 style="color: #ffffff; margin-bottom: 1rem;">Calculadora Científica</h3>
-                        <div class="calculator-display" id="calcDisplay">0</div>
-                        <div class="button-grid">
-                            <button class="clear" onclick="clearCalc()">C</button>
-                            <button class="clear" onclick="deleteLast()">←</button>
-                            <button class="operator" onclick="appendCalc('/')">/</button>
-                            <button class="operator" onclick="appendCalc('*')">×</button>
-                            <button onclick="appendCalc('7')">7</button>
-                            <button onclick="appendCalc('8')">8</button>
-                            <button onclick="appendCalc('9')">9</button>
-                            <button class="operator" onclick="appendCalc('-')">−</button>
-                            <button onclick="appendCalc('4')">4</button>
-                            <button onclick="appendCalc('5')">5</button>
-                            <button onclick="appendCalc('6')">6</button>
-                            <button class="operator" onclick="appendCalc('+')">+</button>
-                            <button onclick="appendCalc('1')">1</button>
-                            <button onclick="appendCalc('2')">2</button>
-                            <button onclick="appendCalc('3')">3</button>
-                            <button class="operator" onclick="appendCalc('.')">.</button>
-                            <button onclick="appendCalc('0')" style="grid-column: span 2;">0</button>
-                            <button class="equals" onclick="calculateResult()">=</button>
-                        </div>
-                    </div>
+                <h2>Seção em Desenvolvimento</h2>
+                <p>Esta seção será desenvolvida em breve. Aqui você poderá acessar cursos, mentorías e oportunidades de emprego.</p>
+            </div>
+        </div>
 
-                    <div>
-                        <h3 style="color: #ffffff; margin-bottom: 1rem;">Funções Especiais</h3>
-                        <div class="form-group">
-                            <label>Potência (x^n)</label>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <input type="number" id="baseInput" placeholder="Base (x)" step="any">
-                                <input type="number" id="exponentInput" placeholder="Expoente (n)" step="any">
-                            </div>
-                            <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="calculatePower()">Calcular Potência</button>
-                        </div>
+        <!-- Página: Empresa - Home -->
+        <div class="page" id="empresa-home">
+            <div class="hero">
+                <h1>Bem-vindo ao EducaJovem RH</h1>
+                <p>Plataforma inteligente de recrutamento e gestão de pessoas</p>
+            </div>
 
-                        <div class="form-group">
-                            <label>Raiz Quadrada</label>
-                            <input type="number" id="sqrtInput" placeholder="Número" step="any">
-                            <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="calculateSqrt()">Calcular Raiz</button>
-                        </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🔍 Busca e Contratação</h3>
+                    <p>Encontre os melhores talentos com filtros avançados. Acesse perfis completos e contrate diretamente.</p>
+                    <button class="btn btn-primary" onclick="openMenu(); navigateTo('busca-contratacao')">Acessar</button>
+                </div>
+                <div class="card">
+                    <h3>🤖 EJ RHAI</h3>
+                    <p>Sistema inteligente de RH com IA. Recrutamento semiautomático, análise de desempenho e monitoramento.</p>
+                    <button class="btn btn-primary" onclick="openMenu(); navigateTo('rh-ia')">Acessar</button>
+                </div>
+                <div class="card">
+                    <h3>📊 Analista de Dados</h3>
+                    <p>Analise dados da sua empresa com inteligência artificial. Gere relatórios e insights valiosos.</p>
+                    <button class="btn btn-primary" onclick="openMenu(); navigateTo('analista-dados')">Acessar</button>
+                </div>
+            </div>
 
-                        <div class="form-group">
-                            <label>Percentual</label>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <input type="number" id="valueInput" placeholder="Valor" step="any">
-                                <input type="number" id="percentInput" placeholder="Percentual (%)" step="any">
-                            </div>
-                            <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="calculatePercent()">Calcular %</button>
-                        </div>
+            <div class="analysis-section">
+                <h2>Sobre o EducaJovem RH</h2>
+                <div style="color: #b0b0b0; line-height: 1.8;">
+                    <h3 style="color: #ffffff; margin-top: 1.5rem; margin-bottom: 1rem;">Funcionalidades</h3>
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ Busca avançada de candidatos com filtros de idade, área, especialização, escola e cidade</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Acesso a perfis completos dos candidatos</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Sistema de contratação integrado</li>
+                        <li style="margin-bottom: 0.5rem;">✓ RH Semiautomático com IA</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Análise de desempenho técnico e comportamental</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Relatórios de desempenho individual e coletivo</li>
+                    </ul>
 
-                        <div id="calcResult" class="result-box">
-                            <h4>Resultado</h4>
-                            <div class="result-value" id="calcResultValue">-</div>
-                        </div>
-                    </div>
+                    <h3 style="color: #ffffff; margin-top: 1.5rem; margin-bottom: 1rem;">Objetivo</h3>
+                    <p style="margin-bottom: 1rem;">
+                        Conectar empresas com os melhores talentos do Brasil, oferecendo uma plataforma inteligente que utiliza IA para recrutamento, análise de desempenho e gestão de pessoas.
+                    </p>
+
+                    <h3 style="color: #ffffff; margin-top: 1.5rem; margin-bottom: 1rem;">Valores</h3>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">🎯 <strong>Inteligência:</strong> Tecnologia IA aplicada à gestão de pessoas</li>
+                        <li style="margin-bottom: 0.5rem;">🤝 <strong>Conexão:</strong> Unindo talentos e oportunidades</li>
+                        <li style="margin-bottom: 0.5rem;">📈 <strong>Crescimento:</strong> Desenvolvimento profissional contínuo</li>
+                        <li style="margin-bottom: 0.5rem;">💼 <strong>Profissionalismo:</strong> Padrões de excelência em RH</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Página: Estatísticas -->
-        <div class="page" id="statistics">
+        <!-- Página: Busca e Contratação -->
+        <div class="page" id="busca-contratacao">
             <div class="analysis-section">
-                <h2>📊 Análise Estatística</h2>
+                <h2>🔍 Busca e Contratação de Funcionários</h2>
                 
                 <div class="form-group">
-                    <label>Insira os valores (separados por vírgula ou espaço)</label>
-                    <textarea id="dataInput" placeholder="Ex: 10, 20, 30, 40, 50" rows="4"></textarea>
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="calculateStats()">Calcular Estatísticas</button>
+                    <label>Pesquisar por Nome</label>
+                    <input type="text" id="searchName" placeholder="Digite o nome do candidato">
                 </div>
 
-                <div id="statsResult" class="result-box">
-                    <h4>Resultados Estatísticos</h4>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td><strong>Quantidade de Valores</strong></td>
-                                <td id="statCount">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Soma</strong></td>
-                                <td id="statSum">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Média (Média Aritmética)</strong></td>
-                                <td id="statMean">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Mediana</strong></td>
-                                <td id="statMedian">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Moda</strong></td>
-                                <td id="statMode">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Valor Mínimo</strong></td>
-                                <td id="statMin">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Valor Máximo</strong></td>
-                                <td id="statMax">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Amplitude (Range)</strong></td>
-                                <td id="statRange">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Variância</strong></td>
-                                <td id="statVariance">-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Desvio Padrão</strong></td>
-                                <td id="statStdDev">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Página: Análise de Dados -->
-        <div class="page" id="analysis">
-            <div class="analysis-section">
-                <h2>📈 Análise de Dados Avançada</h2>
-                
                 <div class="two-column">
                     <div>
-                        <h3 style="color: #ffffff; margin-bottom: 1rem;">Comparação de Conjuntos</h3>
                         <div class="form-group">
-                            <label>Conjunto A (separado por vírgula)</label>
-                            <textarea id="setA" placeholder="Ex: 10, 20, 30, 40" rows="3"></textarea>
+                            <label>Idade Mínima</label>
+                            <input type="number" id="minAge" placeholder="Ex: 18" min="0">
                         </div>
                         <div class="form-group">
-                            <label>Conjunto B (separado por vírgula)</label>
-                            <textarea id="setB" placeholder="Ex: 15, 25, 35, 45" rows="3"></textarea>
+                            <label>Idade Máxima</label>
+                            <input type="number" id="maxAge" placeholder="Ex: 65" min="0">
                         </div>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="compareDatasets()">Comparar Conjuntos</button>
                     </div>
-
                     <div>
-                        <h3 style="color: #ffffff; margin-bottom: 1rem;">Crescimento e Variação</h3>
                         <div class="form-group">
-                            <label>Valor Inicial</label>
-                            <input type="number" id="initialValue" placeholder="Ex: 100" step="any">
+                            <label>Área de Atuação</label>
+                            <select id="area">
+                                <option value="">Selecione uma área</option>
+                                <option value="tecnologia">Tecnologia</option>
+                                <option value="agricultura">Agricultura</option>
+                                <option value="saude">Saúde</option>
+                                <option value="educacao">Educação</option>
+                                <option value="comercio">Comércio</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>Valor Final</label>
-                            <input type="number" id="finalValue" placeholder="Ex: 150" step="any">
+                            <label>Especialização</label>
+                            <input type="text" id="specialization" placeholder="Ex: Programador, Operador Agrícola">
                         </div>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="calculateGrowth()">Calcular Crescimento</button>
                     </div>
                 </div>
 
-                <div id="analysisResult" class="result-box" style="margin-top: 2rem;">
-                    <h4>Resultados da Análise</h4>
-                    <div id="analysisContent" style="color: #b0b0b0;"></div>
+                <div class="two-column">
+                    <div>
+                        <div class="form-group">
+                            <label>Escola/Instituição</label>
+                            <input type="text" id="school" placeholder="Ex: SENAI, IFSP">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label>Cidade</label>
+                            <input type="text" id="city" placeholder="Ex: São Paulo, Campinas">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; padding: 1rem;" onclick="searchCandidates()">🔍 Buscar Candidatos</button>
+
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+
+        <!-- Página: EJ RHAI -->
+        <div class="page" id="rh-ia">
+            <div class="analysis-section">
+                <h2>🤖 EJ RHAI - RH com Inteligência Artificial</h2>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>RH Contratação Semiautomático</h3>
+                        <p>Descreva o tipo de funcionário que você procura e a IA buscará os 5 melhores candidatos.</p>
+                        <button class="btn btn-primary" onclick="showSection('rh-automatico')">Acessar</button>
+                    </div>
+                    <div class="card">
+                        <h3>Analista de Funcionários</h3>
+                        <p>Análise de desempenho técnico e comportamental de cada funcionário. Relatórios detalhados.</p>
+                        <button class="btn btn-primary" onclick="showSection('analista-funcionarios')">Acessar</button>
+                    </div>
+                </div>
+
+                <!-- RH Contratação Semiautomático -->
+                <div id="rh-automatico" style="display: none; margin-top: 2rem;">
+                    <div style="background: #0d0d0d; border: 1px solid #404040; border-radius: 10px; padding: 2rem;">
+                        <h3 style="color: #ffffff; margin-bottom: 1.5rem;">Descreva o Perfil Desejado</h3>
+                        
+                        <div class="form-group">
+                            <label>Tipo de Funcionário</label>
+                            <textarea id="jobDescription" placeholder="Ex: Programador Junior com experiência em Python e JavaScript" rows="4"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%; padding: 1rem;" onclick="findCandidatesAI()">🤖 Buscar com IA</button>
+
+                        <div id="aiResults" class="search-results" style="margin-top: 2rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Analista de Funcionários -->
+                <div id="analista-funcionarios" style="display: none; margin-top: 2rem;">
+                    <div style="background: #0d0d0d; border: 1px solid #404040; border-radius: 10px; padding: 2rem;">
+                        <h3 style="color: #ffffff; margin-bottom: 1.5rem;">Análise de Desempenho de Funcionários</h3>
+                        
+                        <div class="form-group">
+                            <label>Selecione um Funcionário</label>
+                            <select id="employeeSelect" onchange="loadEmployeeAnalysis()">
+                                <option value="">Selecione um funcionário</option>
+                                <option value="emp1">João Silva - Operador Agrícola</option>
+                                <option value="emp2">Maria Santos - Programadora</option>
+                                <option value="emp3">Pedro Costa - Técnico em Eletrônica</option>
+                                <option value="emp4">Ana Oliveira - Analista de Sistemas</option>
+                            </select>
+                        </div>
+
+                        <div id="employeeAnalysis" style="display: none; margin-top: 2rem;">
+                            <div style="background: #1a1a1a; border: 1px solid #404040; border-radius: 10px; padding: 2rem;">
+                                <h4 style="color: #ffffff; margin-bottom: 1.5rem;" id="employeeName"></h4>
+                                
+                                <div class="performance-metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">Desempenho Técnico</div>
+                                        <div class="metric-value" id="techScore">8.7</div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">Desempenho Comportamental</div>
+                                        <div class="metric-value" id="behaviorScore">7.6</div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">ITD (Índice Total)</div>
+                                        <div class="metric-value" id="itdScore">8.26</div>
+                                    </div>
+                                </div>
+
+                                <table style="margin-top: 2rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Indicador</th>
+                                            <th>Mês Anterior</th>
+                                            <th>Mês Atual</th>
+                                            <th>Variação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Técnico</strong></td>
+                                            <td id="techPrev">8.1</td>
+                                            <td id="techCurr">8.7</td>
+                                            <td id="techVar" style="color: #90ee90;">+7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Comportamental</strong></td>
+                                            <td id="behavPrev">8.4</td>
+                                            <td id="behavCurr">7.6</td>
+                                            <td id="behavVar" style="color: #ff6b6b;">-9%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ITD (Média)</strong></td>
+                                            <td id="itdPrev">8.2</td>
+                                            <td id="itdCurr">8.26</td>
+                                            <td id="itdVar" style="color: #90ee90;">+0,7%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="background: #0d0d0d; border: 1px solid #404040; border-radius: 5px; padding: 1.5rem; margin-top: 2rem;">
+                                    <h4 style="color: #ffffff; margin-bottom: 1rem;">Análise da IA</h4>
+                                    <p id="aiAnalysis" style="color: #b0b0b0;">Desempenho técnico crescente, leve queda emocional. Recomendado acompanhamento leve e incentivo de pausas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Página: Sobre -->
-        <div class="page" id="about">
+        <!-- Página: Analista de Dados -->
+        <div class="page" id="analista-dados">
             <div class="analysis-section">
-                <h2>ℹ️ Sobre DataCalc</h2>
+                <h2>📊 Analista de Dados com IA</h2>
                 
-                <div style="color: #b0b0b0; line-height: 1.8;">
-                    <p style="margin-bottom: 1rem;">
-                        <strong style="color: #ffffff;">DataCalc</strong> é uma plataforma web moderna e intuitiva desenvolvida para profissionais de dados, analistas, estudantes e entusiastas da matemática.
-                    </p>
+                <div class="form-group">
+                    <label>Tipo de Análise</label>
+                    <select id="analysisType" onchange="updateAnalysisOptions()">
+                        <option value="">Selecione um tipo</option>
+                        <option value="desempenho">Desempenho Geral da Empresa</option>
+                        <option value="contratacoes">Análise de Contratações</option>
+                        <option value="departamentos">Comparativo por Departamento</option>
+                        <option value="customizado">Análise Customizada</option>
+                    </select>
+                </div>
 
-                    <h3 style="color: #ffffff; margin-top: 2rem; margin-bottom: 1rem;">Funcionalidades Principais</h3>
-                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
-                        <li style="margin-bottom: 0.5rem;">✓ Calculadora científica com operações avançadas</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Análise estatística completa (média, mediana, desvio padrão, etc.)</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Comparação de conjuntos de dados</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Cálculo de crescimento e variação percentual</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Interface responsiva e intuitiva</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Design moderno em tons de preto, cinza e branco</li>
-                    </ul>
+                <div id="customAnalysis" style="display: none;">
+                    <div class="form-group">
+                        <label>Insira os Dados para Análise (separados por vírgula)</label>
+                        <textarea id="customData" placeholder="Ex: 100, 150, 200, 180, 220" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; padding: 1rem;" onclick="analyzeCustomData()">🤖 Analisar com IA</button>
+                </div>
 
-                    <h3 style="color: #ffffff; margin-top: 2rem; margin-bottom: 1rem;">Tecnologias Utilizadas</h3>
-                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
-                        <li style="margin-bottom: 0.5rem;">• HTML5 - Estrutura semântica</li>
-                        <li style="margin-bottom: 0.5rem;">• CSS3 - Design responsivo e moderno</li>
-                        <li style="margin-bottom: 0.5rem;">• JavaScript Vanilla - Lógica e interatividade</li>
-                    </ul>
+                <div id="analysisResults" style="display: none; margin-top: 2rem;">
+                    <div style="background: #1a1a1a; border: 1px solid #404040; border-radius: 10px; padding: 2rem;">
+                        <h3 style="color: #ffffff; margin-bottom: 1.5rem;">Resultados da Análise</h3>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Métrica</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Média</strong></td>
+                                    <td id="analysisMean">-</td>
+                                    <td style="color: #90ee90;">✓</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mediana</strong></td>
+                                    <td id="analysisMedian">-</td>
+                                    <td style="color: #90ee90;">✓</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Desvio Padrão</strong></td>
+                                    <td id="analysisStdDev">-</td>
+                                    <td style="color: #90ee90;">✓</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Valor Mínimo</strong></td>
+                                    <td id="analysisMin">-</td>
+                                    <td style="color: #90ee90;">✓</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Valor Máximo</strong></td>
+                                    <td id="analysisMax">-</td>
+                                    <td style="color: #90ee90;">✓</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                    <h3 style="color: #ffffff; margin-top: 2rem; margin-bottom: 1rem;">Como Usar</h3>
-                    <p style="margin-bottom: 1rem;">
-                        Navegue pelas diferentes seções usando o menu no topo da página. Cada seção oferece ferramentas específicas para análise de dados e cálculos matemáticos. Todos os cálculos são realizados localmente no seu navegador, garantindo privacidade e velocidade.
-                    </p>
-
-                    <h3 style="color: #ffffff; margin-top: 2rem; margin-bottom: 1rem;">Desenvolvido com ❤️</h3>
-                    <p>
-                        DataCalc foi desenvolvido como um projeto de portfólio para demonstrar habilidades em desenvolvimento web, análise de dados e design de interface.
-                    </p>
+                        <div style="background: #0d0d0d; border: 1px solid #404040; border-radius: 5px; padding: 1.5rem; margin-top: 2rem;">
+                            <h4 style="color: #ffffff; margin-bottom: 1rem;">Insights da IA</h4>
+                            <p id="analysisInsight" style="color: #b0b0b0;"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -770,311 +907,392 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 DataCalc - Análise de Dados e Cálculos Matemáticos. Todos os direitos reservados.</p>
+        <p>&copy; 2025 EducaJovem RH - Inteligência que Entende Pessoas. Todos os direitos reservados.</p>
         <p style="font-size: 0.9rem; margin-top: 0.5rem;">Desenvolvido com HTML5, CSS3 e JavaScript Vanilla</p>
     </footer>
 
     <script>
+        // Variáveis globais
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        // Abrir/Fechar Menu Hamburger
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        function toggleMenu() {
+            hamburgerBtn.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function openMenu() {
+            hamburgerBtn.classList.add('active');
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closeMenu() {
+            hamburgerBtn.classList.remove('active');
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
         // Navegação entre páginas
         function navigateTo(pageId) {
-            // Ocultar todas as páginas
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-
-            // Mostrar a página selecionada
             document.getElementById(pageId).classList.add('active');
 
-            // Atualizar botões de navegação
-            document.querySelectorAll('.nav-btn').forEach(btn => {
+            // Atualizar botões do sidebar
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('data-page') === pageId) {
-                    btn.classList.add('active');
-                }
             });
+            document.querySelector(`[data-page="${pageId}"]`)?.classList.add('active');
 
-            // Scroll para o topo
             window.scrollTo(0, 0);
         }
 
-        // Event listeners para botões de navegação
-        document.querySelectorAll('.nav-btn').forEach(btn => {
+        // Event listeners para botões do sidebar
+        document.querySelectorAll('.sidebar-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 navigateTo(this.getAttribute('data-page'));
+                closeMenu();
             });
         });
 
-        // ===== CALCULADORA =====
-        let calcDisplay = document.getElementById('calcDisplay');
-        let currentInput = '0';
+        // Busca de Candidatos
+        function searchCandidates() {
+            const name = document.getElementById('searchName').value;
+            const minAge = document.getElementById('minAge').value;
+            const maxAge = document.getElementById('maxAge').value;
+            const area = document.getElementById('area').value;
+            const specialization = document.getElementById('specialization').value;
+            const school = document.getElementById('school').value;
+            const city = document.getElementById('city').value;
 
-        function appendCalc(value) {
-            if (currentInput === '0' && value !== '.') {
-                currentInput = value;
-            } else {
-                currentInput += value;
-            }
-            updateDisplay();
-        }
+            // Dados simulados de candidatos
+            const candidates = [
+                {
+                    id: 1,
+                    name: 'João Silva',
+                    age: 28,
+                    area: 'agricultura',
+                    specialization: 'Operador Agrícola',
+                    school: 'SENAI',
+                    city: 'Campinas',
+                    experience: '5 anos',
+                    itd: 8.7
+                },
+                {
+                    id: 2,
+                    name: 'Maria Santos',
+                    age: 25,
+                    area: 'tecnologia',
+                    specialization: 'Programadora',
+                    school: 'IFSP',
+                    city: 'São Paulo',
+                    experience: '3 anos',
+                    itd: 8.9
+                },
+                {
+                    id: 3,
+                    name: 'Pedro Costa',
+                    age: 32,
+                    area: 'tecnologia',
+                    specialization: 'Técnico em Eletrônica',
+                    school: 'SENAI',
+                    city: 'Sorocaba',
+                    experience: '7 anos',
+                    itd: 8.5
+                },
+                {
+                    id: 4,
+                    name: 'Ana Oliveira',
+                    age: 29,
+                    area: 'tecnologia',
+                    specialization: 'Analista de Sistemas',
+                    school: 'USP',
+                    city: 'São Paulo',
+                    experience: '4 anos',
+                    itd: 9.1
+                },
+                {
+                    id: 5,
+                    name: 'Carlos Mendes',
+                    age: 35,
+                    area: 'agricultura',
+                    specialization: 'Operador Agrícola',
+                    school: 'SENAI',
+                    city: 'Ribeirão Preto',
+                    experience: '10 anos',
+                    itd: 8.3
+                }
+            ];
 
-        function updateDisplay() {
-            calcDisplay.textContent = currentInput;
-        }
-
-        function clearCalc() {
-            currentInput = '0';
-            updateDisplay();
-        }
-
-        function deleteLast() {
-            if (currentInput.length > 1) {
-                currentInput = currentInput.slice(0, -1);
-            } else {
-                currentInput = '0';
-            }
-            updateDisplay();
-        }
-
-        function calculateResult() {
-            try {
-                // Substituir símbolos para JavaScript
-                let expression = currentInput.replace(/−/g, '-').replace(/×/g, '*');
-                let result = eval(expression);
-                currentInput = result.toString();
-                updateDisplay();
-            } catch (error) {
-                showAlert('Erro na expressão matemática', 'error');
-                clearCalc();
-            }
-        }
-
-        function calculatePower() {
-            const base = parseFloat(document.getElementById('baseInput').value);
-            const exponent = parseFloat(document.getElementById('exponentInput').value);
-
-            if (isNaN(base) || isNaN(exponent)) {
-                showAlert('Por favor, preencha todos os campos', 'error');
-                return;
-            }
-
-            const result = Math.pow(base, exponent);
-            displayCalcResult(`${base}^${exponent} = ${result.toFixed(6)}`);
-        }
-
-        function calculateSqrt() {
-            const value = parseFloat(document.getElementById('sqrtInput').value);
-
-            if (isNaN(value) || value < 0) {
-                showAlert('Por favor, insira um número não-negativo', 'error');
-                return;
-            }
-
-            const result = Math.sqrt(value);
-            displayCalcResult(`√${value} = ${result.toFixed(6)}`);
-        }
-
-        function calculatePercent() {
-            const value = parseFloat(document.getElementById('valueInput').value);
-            const percent = parseFloat(document.getElementById('percentInput').value);
-
-            if (isNaN(value) || isNaN(percent)) {
-                showAlert('Por favor, preencha todos os campos', 'error');
-                return;
-            }
-
-            const result = (value * percent) / 100;
-            displayCalcResult(`${percent}% de ${value} = ${result.toFixed(2)}`);
-        }
-
-        function displayCalcResult(text) {
-            document.getElementById('calcResultValue').textContent = text;
-            document.getElementById('calcResult').classList.add('show');
-        }
-
-        // ===== ESTATÍSTICAS =====
-        function calculateStats() {
-            const input = document.getElementById('dataInput').value;
-            
-            if (!input.trim()) {
-                showAlert('Por favor, insira alguns valores', 'error');
-                return;
-            }
-
-            // Converter input em array de números
-            const values = input.split(/[,\s]+/)
-                .map(v => parseFloat(v.trim()))
-                .filter(v => !isNaN(v));
-
-            if (values.length === 0) {
-                showAlert('Nenhum valor válido encontrado', 'error');
-                return;
-            }
-
-            // Cálculos
-            const count = values.length;
-            const sum = values.reduce((a, b) => a + b, 0);
-            const mean = sum / count;
-            const sorted = [...values].sort((a, b) => a - b);
-            const median = count % 2 === 0 
-                ? (sorted[count / 2 - 1] + sorted[count / 2]) / 2 
-                : sorted[Math.floor(count / 2)];
-            
-            // Moda
-            const frequency = {};
-            values.forEach(v => {
-                frequency[v] = (frequency[v] || 0) + 1;
+            // Filtrar candidatos
+            let filtered = candidates.filter(c => {
+                let match = true;
+                if (name && !c.name.toLowerCase().includes(name.toLowerCase())) match = false;
+                if (minAge && c.age < parseInt(minAge)) match = false;
+                if (maxAge && c.age > parseInt(maxAge)) match = false;
+                if (area && c.area !== area) match = false;
+                if (specialization && !c.specialization.toLowerCase().includes(specialization.toLowerCase())) match = false;
+                if (school && !c.school.toLowerCase().includes(school.toLowerCase())) match = false;
+                if (city && !c.city.toLowerCase().includes(city.toLowerCase())) match = false;
+                return match;
             });
-            const mode = Object.keys(frequency).reduce((a, b) => 
-                frequency[a] > frequency[b] ? a : b
-            );
-
-            const min = Math.min(...values);
-            const max = Math.max(...values);
-            const range = max - min;
-            
-            // Variância
-            const variance = values.reduce((sum, val) => 
-                sum + Math.pow(val - mean, 2), 0) / count;
-            const stdDev = Math.sqrt(variance);
 
             // Exibir resultados
-            document.getElementById('statCount').textContent = count;
-            document.getElementById('statSum').textContent = sum.toFixed(2);
-            document.getElementById('statMean').textContent = mean.toFixed(2);
-            document.getElementById('statMedian').textContent = median.toFixed(2);
-            document.getElementById('statMode').textContent = mode;
-            document.getElementById('statMin').textContent = min.toFixed(2);
-            document.getElementById('statMax').textContent = max.toFixed(2);
-            document.getElementById('statRange').textContent = range.toFixed(2);
-            document.getElementById('statVariance').textContent = variance.toFixed(2);
-            document.getElementById('statStdDev').textContent = stdDev.toFixed(2);
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
 
-            document.getElementById('statsResult').classList.add('show');
-            showAlert('Estatísticas calculadas com sucesso!', 'success');
+            if (filtered.length === 0) {
+                resultsDiv.innerHTML = '<p style="color: #b0b0b0; grid-column: 1/-1;">Nenhum candidato encontrado com esses critérios.</p>';
+                return;
+            }
+
+            filtered.forEach(candidate => {
+                const card = document.createElement('div');
+                card.className = 'employee-result';
+                card.innerHTML = `
+                    <h4>${candidate.name}</h4>
+                    <p><strong>Idade:</strong> ${candidate.age} anos</p>
+                    <p><strong>Área:</strong> ${candidate.area}</p>
+                    <p><strong>Especialização:</strong> ${candidate.specialization}</p>
+                    <p><strong>Instituição:</strong> ${candidate.school}</p>
+                    <p><strong>Cidade:</strong> ${candidate.city}</p>
+                    <p><strong>Experiência:</strong> ${candidate.experience}</p>
+                    <p><strong>ITD:</strong> ${candidate.itd}</p>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="viewProfile(${candidate.id})">Ver Perfil</button>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="hireCandidates(${candidate.id})">Contratar</button>
+                `;
+                resultsDiv.appendChild(card);
+            });
         }
 
-        // ===== ANÁLISE DE DADOS =====
-        function compareDatasets() {
-            const inputA = document.getElementById('setA').value;
-            const inputB = document.getElementById('setB').value;
+        // Busca com IA
+        function findCandidatesAI() {
+            const description = document.getElementById('jobDescription').value;
 
-            if (!inputA.trim() || !inputB.trim()) {
-                showAlert('Por favor, preencha ambos os conjuntos', 'error');
+            if (!description.trim()) {
+                alert('Por favor, descreva o perfil desejado');
                 return;
             }
 
-            const setA = inputA.split(/[,\s]+/)
-                .map(v => parseFloat(v.trim()))
-                .filter(v => !isNaN(v));
-            
-            const setB = inputB.split(/[,\s]+/)
-                .map(v => parseFloat(v.trim()))
-                .filter(v => !isNaN(v));
+            // Simular busca com IA
+            const candidates = [
+                {
+                    name: 'Maria Santos',
+                    specialization: 'Programadora',
+                    itd: 8.9,
+                    match: '95%'
+                },
+                {
+                    name: 'Ana Oliveira',
+                    specialization: 'Analista de Sistemas',
+                    itd: 9.1,
+                    match: '92%'
+                },
+                {
+                    name: 'Pedro Costa',
+                    specialization: 'Técnico em Eletrônica',
+                    itd: 8.5,
+                    match: '85%'
+                },
+                {
+                    name: 'João Silva',
+                    specialization: 'Operador Agrícola',
+                    itd: 8.7,
+                    match: '78%'
+                },
+                {
+                    name: 'Carlos Mendes',
+                    specialization: 'Operador Agrícola',
+                    itd: 8.3,
+                    match: '72%'
+                }
+            ];
 
-            if (setA.length === 0 || setB.length === 0) {
-                showAlert('Nenhum valor válido encontrado', 'error');
-                return;
-            }
+            const resultsDiv = document.getElementById('aiResults');
+            resultsDiv.innerHTML = '';
 
-            // Cálculos
-            const meanA = setA.reduce((a, b) => a + b, 0) / setA.length;
-            const meanB = setB.reduce((a, b) => a + b, 0) / setB.length;
-            const difference = meanB - meanA;
-            const percentDifference = ((difference / meanA) * 100).toFixed(2);
-
-            let html = `
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><strong>Média do Conjunto A</strong></td>
-                            <td>${meanA.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Média do Conjunto B</strong></td>
-                            <td>${meanB.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Diferença Absoluta</strong></td>
-                            <td>${Math.abs(difference).toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Diferença Percentual</strong></td>
-                            <td>${percentDifference}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Conjunto A Maior?</strong></td>
-                            <td>${meanA > meanB ? 'Sim' : 'Não'}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-
-            document.getElementById('analysisContent').innerHTML = html;
-            document.getElementById('analysisResult').classList.add('show');
-            showAlert('Comparação realizada com sucesso!', 'success');
+            candidates.forEach(candidate => {
+                const card = document.createElement('div');
+                card.className = 'employee-result';
+                card.innerHTML = `
+                    <h4>${candidate.name}</h4>
+                    <p><strong>Especialização:</strong> ${candidate.specialization}</p>
+                    <p><strong>ITD:</strong> ${candidate.itd}</p>
+                    <p><strong>Match com Descrição:</strong> <span style="color: #90ee90; font-weight: 700;">${candidate.match}</span></p>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="hireCandidates('${candidate.name}')">Contratar</button>
+                `;
+                resultsDiv.appendChild(card);
+            });
         }
 
-        function calculateGrowth() {
-            const initial = parseFloat(document.getElementById('initialValue').value);
-            const final = parseFloat(document.getElementById('finalValue').value);
-
-            if (isNaN(initial) || isNaN(final)) {
-                showAlert('Por favor, preencha ambos os valores', 'error');
-                return;
-            }
-
-            if (initial === 0) {
-                showAlert('O valor inicial não pode ser zero', 'error');
-                return;
-            }
-
-            const absoluteGrowth = final - initial;
-            const percentGrowth = ((absoluteGrowth / initial) * 100).toFixed(2);
-            const growthType = absoluteGrowth >= 0 ? 'Crescimento' : 'Redução';
-
-            let html = `
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><strong>Valor Inicial</strong></td>
-                            <td>${initial.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Valor Final</strong></td>
-                            <td>${final.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Crescimento Absoluto</strong></td>
-                            <td>${absoluteGrowth.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Crescimento Percentual</strong></td>
-                            <td>${percentGrowth}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tipo de Variação</strong></td>
-                            <td>${growthType}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-
-            document.getElementById('analysisContent').innerHTML = html;
-            document.getElementById('analysisResult').classList.add('show');
-            showAlert('Análise de crescimento realizada com sucesso!', 'success');
+        // Mostrar/Ocultar seções
+        function showSection(sectionId) {
+            document.getElementById('rh-automatico').style.display = 'none';
+            document.getElementById('analista-funcionarios').style.display = 'none';
+            document.getElementById(sectionId).style.display = 'block';
         }
 
-        // ===== ALERTAS =====
-        function showAlert(message, type) {
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type} show`;
-            alert.textContent = message;
-            
-            document.querySelector('.container').insertBefore(alert, document.querySelector('.container').firstChild);
+        // Carregar análise de funcionário
+        function loadEmployeeAnalysis() {
+            const select = document.getElementById('employeeSelect');
+            const analysisDiv = document.getElementById('employeeAnalysis');
 
-            setTimeout(() => {
-                alert.remove();
-            }, 4000);
+            if (!select.value) {
+                analysisDiv.style.display = 'none';
+                return;
+            }
+
+            const employees = {
+                emp1: {
+                    name: 'João Silva - Operador Agrícola',
+                    tech: 8.7,
+                    behavior: 7.6,
+                    itd: 8.26,
+                    techPrev: 8.1,
+                    behavPrev: 8.4,
+                    itdPrev: 8.2,
+                    analysis: 'Desempenho técnico crescente, leve queda emocional. Recomendado acompanhamento leve e incentivo de pausas.'
+                },
+                emp2: {
+                    name: 'Maria Santos - Programadora',
+                    tech: 9.2,
+                    behavior: 8.8,
+                    itd: 9.06,
+                    techPrev: 8.9,
+                    behavPrev: 8.5,
+                    itdPrev: 8.75,
+                    analysis: 'Excelente desempenho técnico e comportamental. Recomendado promover para posição de liderança.'
+                },
+                emp3: {
+                    name: 'Pedro Costa - Técnico em Eletrônica',
+                    tech: 8.5,
+                    behavior: 7.9,
+                    itd: 8.26,
+                    techPrev: 8.3,
+                    behavPrev: 8.1,
+                    itdPrev: 8.2,
+                    analysis: 'Desempenho estável. Recomendado investir em treinamentos comportamentais.'
+                },
+                emp4: {
+                    name: 'Ana Oliveira - Analista de Sistemas',
+                    tech: 9.4,
+                    behavior: 9.0,
+                    itd: 9.24,
+                    techPrev: 9.1,
+                    behavPrev: 8.8,
+                    itdPrev: 8.98,
+                    analysis: 'Desempenho excepcional. Colaboradora estratégica para projetos de alta complexidade.'
+                }
+            };
+
+            const emp = employees[select.value];
+            document.getElementById('employeeName').textContent = emp.name;
+            document.getElementById('techScore').textContent = emp.tech;
+            document.getElementById('behaviorScore').textContent = emp.behavior;
+            document.getElementById('itdScore').textContent = emp.itd;
+            document.getElementById('techPrev').textContent = emp.techPrev;
+            document.getElementById('techCurr').textContent = emp.tech;
+            document.getElementById('behavPrev').textContent = emp.behavPrev;
+            document.getElementById('behavCurr').textContent = emp.behavior;
+            document.getElementById('itdPrev').textContent = emp.itdPrev;
+            document.getElementById('itdCurr').textContent = emp.itd;
+            document.getElementById('aiAnalysis').textContent = emp.analysis;
+
+            analysisDiv.style.display = 'block';
+        }
+
+        // Atualizar opções de análise
+        function updateAnalysisOptions() {
+            const type = document.getElementById('analysisType').value;
+            const customDiv = document.getElementById('customAnalysis');
+
+            if (type === 'customizado') {
+                customDiv.style.display = 'block';
+            } else if (type) {
+                customDiv.style.display = 'none';
+                analyzeData(type);
+            } else {
+                customDiv.style.display = 'none';
+                document.getElementById('analysisResults').style.display = 'none';
+            }
+        }
+
+        // Analisar dados customizados
+        function analyzeCustomData() {
+            const data = document.getElementById('customData').value;
+            const values = data.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+
+            if (values.length === 0) {
+                alert('Por favor, insira dados válidos');
+                return;
+            }
+
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
+            const sorted = [...values].sort((a, b) => a - b);
+            const median = sorted.length % 2 === 0 
+                ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2 
+                : sorted[Math.floor(sorted.length / 2)];
+            const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
+            const stdDev = Math.sqrt(variance);
+            const min = Math.min(...values);
+            const max = Math.max(...values);
+
+            document.getElementById('analysisMean').textContent = mean.toFixed(2);
+            document.getElementById('analysisMedian').textContent = median.toFixed(2);
+            document.getElementById('analysisStdDev').textContent = stdDev.toFixed(2);
+            document.getElementById('analysisMin').textContent = min.toFixed(2);
+            document.getElementById('analysisMax').textContent = max.toFixed(2);
+            document.getElementById('analysisInsight').textContent = `Análise de ${values.length} valores. Média: ${mean.toFixed(2)}, Desvio Padrão: ${stdDev.toFixed(2)}. Os dados mostram uma variação de ${(max - min).toFixed(2)} unidades.`;
+            document.getElementById('analysisResults').style.display = 'block';
+        }
+
+        // Analisar dados pré-definidos
+        function analyzeData(type) {
+            const dataMap = {
+                desempenho: {
+                    values: [8.2, 8.5, 8.7, 8.9, 8.6],
+                    insight: 'Desempenho geral da empresa em alta. Média de 8.58 indica excelência operacional.'
+                },
+                contratacoes: {
+                    values: [5, 8, 6, 9, 7],
+                    insight: 'Média de 7 contratações por mês. Tendência crescente indica expansão saudável.'
+                },
+                departamentos: {
+                    values: [8.5, 7.9, 8.2, 8.7, 8.1],
+                    insight: 'Departamento de Tecnologia lidera com 8.7. Recomendado investir em desenvolvimento do departamento de RH.'
+                }
+            };
+
+            const data = dataMap[type];
+            const mean = data.values.reduce((a, b) => a + b, 0) / data.values.length;
+            const variance = data.values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.values.length;
+            const stdDev = Math.sqrt(variance);
+
+            document.getElementById('analysisMean').textContent = mean.toFixed(2);
+            document.getElementById('analysisMedian').textContent = data.values.sort((a, b) => a - b)[Math.floor(data.values.length / 2)].toFixed(2);
+            document.getElementById('analysisStdDev').textContent = stdDev.toFixed(2);
+            document.getElementById('analysisMin').textContent = Math.min(...data.values).toFixed(2);
+            document.getElementById('analysisMax').textContent = Math.max(...data.values).toFixed(2);
+            document.getElementById('analysisInsight').textContent = data.insight;
+            document.getElementById('analysisResults').style.display = 'block';
+        }
+
+        // Contratar candidato
+        function hireCandidates(candidateId) {
+            alert(`Candidato ${candidateId} contratado com sucesso! Um email de confirmação foi enviado.`);
+        }
+
+        // Ver perfil
+        function viewProfile(candidateId) {
+            alert(`Abrindo perfil do candidato ${candidateId}...`);
         }
     </script>
 </body>
