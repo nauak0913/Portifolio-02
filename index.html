@@ -684,11 +684,11 @@
                             <label>Área de Atuação</label>
                             <select id="area">
                                 <option value="">Selecione uma área</option>
-                                <option value="tecnologia">Tecnologia</option>
-                                <option value="agricultura">Agricultura</option>
-                                <option value="saude">Saúde</option>
-                                <option value="educacao">Educação</option>
-                                <option value="comercio">Comércio</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Agricultura">Agricultura</option>
+                                <option value="Saúde">Saúde</option>
+                                <option value="Educação">Educação</option>
+                                <option value="Comércio">Comércio</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -963,98 +963,76 @@
             });
         });
 
-        // Busca de Candidatos
-        function searchCandidates() {
-            const name = document.getElementById('searchName').value;
-            const minAge = document.getElementById('minAge').value;
-            const maxAge = document.getElementById('maxAge').value;
-            const area = document.getElementById('area').value;
-            const specialization = document.getElementById('specialization').value;
-            const school = document.getElementById('school').value;
-            const city = document.getElementById('city').value;
+        // Variável global para armazenar os dados dos candidatos
+        const allCandidates = [
+            {
+                id: 1,
+                name: 'João Silva',
+                age: 28,
+                area: 'Agricultura',
+                specialization: 'Operador Agrícola',
+                school: 'SENAI',
+                city: 'Campinas',
+                experience: '5 anos',
+                itd: 8.7
+            },
+            {
+                id: 2,
+                name: 'Maria Santos',
+                age: 25,
+                area: 'Tecnologia',
+                specialization: 'Programadora',
+                school: 'IFSP',
+                city: 'São Paulo',
+                experience: '3 anos',
+                itd: 8.9
+            },
+            {
+                id: 3,
+                name: 'Pedro Costa',
+                age: 32,
+                area: 'Tecnologia',
+                specialization: 'Técnico em Eletrônica',
+                school: 'SENAI',
+                city: 'Sorocaba',
+                experience: '7 anos',
+                itd: 8.5
+            },
+            {
+                id: 4,
+                name: 'Ana Oliveira',
+                age: 29,
+                area: 'Tecnologia',
+                specialization: 'Analista de Sistemas',
+                school: 'USP',
+                city: 'São Paulo',
+                experience: '4 anos',
+                itd: 9.1
+            },
+            {
+                id: 5,
+                name: 'Carlos Mendes',
+                age: 35,
+                area: 'Agricultura',
+                specialization: 'Operador Agrícola',
+                school: 'SENAI',
+                city: 'Ribeirão Preto',
+                experience: '10 anos',
+                itd: 8.3
+            }
+        ];
 
-            // Dados simulados de candidatos
-            const candidates = [
-                {
-                    id: 1,
-                    name: 'João Silva',
-                    age: 28,
-                    area: 'agricultura',
-                    specialization: 'Operador Agrícola',
-                    school: 'SENAI',
-                    city: 'Campinas',
-                    experience: '5 anos',
-                    itd: 8.7
-                },
-                {
-                    id: 2,
-                    name: 'Maria Santos',
-                    age: 25,
-                    area: 'tecnologia',
-                    specialization: 'Programadora',
-                    school: 'IFSP',
-                    city: 'São Paulo',
-                    experience: '3 anos',
-                    itd: 8.9
-                },
-                {
-                    id: 3,
-                    name: 'Pedro Costa',
-                    age: 32,
-                    area: 'tecnologia',
-                    specialization: 'Técnico em Eletrônica',
-                    school: 'SENAI',
-                    city: 'Sorocaba',
-                    experience: '7 anos',
-                    itd: 8.5
-                },
-                {
-                    id: 4,
-                    name: 'Ana Oliveira',
-                    age: 29,
-                    area: 'tecnologia',
-                    specialization: 'Analista de Sistemas',
-                    school: 'USP',
-                    city: 'São Paulo',
-                    experience: '4 anos',
-                    itd: 9.1
-                },
-                {
-                    id: 5,
-                    name: 'Carlos Mendes',
-                    age: 35,
-                    area: 'agricultura',
-                    specialization: 'Operador Agrícola',
-                    school: 'SENAI',
-                    city: 'Ribeirão Preto',
-                    experience: '10 anos',
-                    itd: 8.3
-                }
-            ];
-
-            // Filtrar candidatos
-            let filtered = candidates.filter(c => {
-                let match = true;
-                if (name && !c.name.toLowerCase().includes(name.toLowerCase())) match = false;
-                if (minAge && c.age < parseInt(minAge)) match = false;
-                if (maxAge && c.age > parseInt(maxAge)) match = false;
-                if (area && c.area !== area) match = false;
-                if (specialization && !c.specialization.toLowerCase().includes(specialization.toLowerCase())) match = false;
-                if (school && !c.school.toLowerCase().includes(school.toLowerCase())) match = false;
-                if (city && !c.city.toLowerCase().includes(city.toLowerCase())) match = false;
-                return match;
-            });
-
-            // Exibir resultados
+        // Função para exibir os candidatos na tela
+        function displayCandidates(candidates) {
             const resultsDiv = document.getElementById('searchResults');
             resultsDiv.innerHTML = '';
 
-            if (filtered.length === 0) {
+            if (candidates.length === 0) {
                 resultsDiv.innerHTML = '<p style="color: #b0b0b0; grid-column: 1/-1;">Nenhum candidato encontrado com esses critérios.</p>';
                 return;
             }
 
-            filtered.forEach(candidate => {
+            candidates.forEach(candidate => {
                 const card = document.createElement('div');
                 card.className = 'employee-result';
                 card.innerHTML = `
@@ -1071,6 +1049,55 @@
                 `;
                 resultsDiv.appendChild(card);
             });
+        }
+
+        // Carregar todos os candidatos ao entrar na página
+        function loadAllCandidates() {
+            displayCandidates(allCandidates);
+        }
+
+        // Adicionar evento para carregar candidatos quando a página for ativada
+        document.getElementById('busca-contratacao').addEventListener('transitionend', (event) => {
+            if (event.propertyName === 'opacity' && document.getElementById('busca-contratacao').classList.contains('active')) {
+                loadAllCandidates();
+            }
+        });
+
+        // Busca de Candidatos (função original, agora usa allCandidates)
+        function searchCandidates() {
+            const name = document.getElementById('searchName').value;
+            const minAge = document.getElementById('minAge').value;
+            const maxAge = document.getElementById('maxAge').value;
+            const area = document.getElementById('area').value;
+            const specialization = document.getElementById('specialization').value;
+            const school = document.getElementById('school').value;
+            const city = document.getElementById('city').value;
+
+            // Busca de Candidatos (função original, agora usa allCandidates)
+        function searchCandidates() {
+            const name = document.getElementById('searchName').value;
+            const minAge = document.getElementById('minAge').value;
+            const maxAge = document.getElementById('maxAge').value;
+            const area = document.getElementById('area').value;
+            const specialization = document.getElementById('specialization').value;
+            const school = document.getElementById('school').value;
+            const city = document.getElementById('city').value;
+
+            // Filtrar candidatos
+            let filtered = allCandidates.filter(c => {
+                let match = true;
+                if (name && !c.name.toLowerCase().includes(name.toLowerCase())) match = false;
+                if (minAge && c.age < parseInt(minAge)) match = false;
+                if (maxAge && c.age > parseInt(maxAge)) match = false;
+                if (area && c.area.toLowerCase() !== area.toLowerCase()) match = false;
+                if (specialization && !c.specialization.toLowerCase().includes(specialization.toLowerCase())) match = false;
+                if (school && !c.school.toLowerCase().includes(school.toLowerCase())) match = false;
+                if (city && !c.city.toLowerCase().includes(city.toLowerCase())) match = false;
+                return match;
+            });
+
+            // Exibir resultados
+            displayCandidates(filtered);
         }
 
         // Busca com IA
