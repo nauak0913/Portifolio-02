@@ -940,7 +940,7 @@
         }
 
         // Navegação entre páginas
-        function navigateTo(pageId) {
+        window.navigateTo = function(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
@@ -956,6 +956,19 @@
         }
 
         // Event listeners para botões do sidebar
+        document.querySelectorAll('.sidebar-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                navigateTo(this.getAttribute('data-page'));
+                closeMenu();
+            });
+        });
+
+        // Inicializa a exibição dos candidatos na página de busca se ela for a ativa
+        if (document.getElementById('busca-contratacao').classList.contains('active')) {
+            loadAllCandidates();
+        }
+
+        // --- FIM DA CORREÇÃO DE NAVEGAÇÃO ---
         document.querySelectorAll('.sidebar-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 navigateTo(this.getAttribute('data-page'));
