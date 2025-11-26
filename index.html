@@ -963,11 +963,6 @@
             });
         });
 
-        // Inicializa a exibição dos candidatos na página de busca se ela for a ativa
-        if (document.getElementById('busca-contratacao').classList.contains('active')) {
-            loadAllCandidates();
-        }
-
         // --- FIM DA CORREÇÃO DE NAVEGAÇÃO ---
         document.querySelectorAll('.sidebar-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -1064,17 +1059,7 @@
             });
         }
 
-        // Carregar todos os candidatos ao entrar na página
-        function loadAllCandidates() {
-            displayCandidates(allCandidates);
-        }
-
-        // Adicionar evento para carregar candidatos quando a página for ativada
-        document.getElementById('busca-contratacao').addEventListener('transitionend', (event) => {
-            if (event.propertyName === 'opacity' && document.getElementById('busca-contratacao').classList.contains('active')) {
-                loadAllCandidates();
-            }
-        });
+        
 
         // Busca de Candidatos (função original, agora usa allCandidates)
         function searchCandidates() {
